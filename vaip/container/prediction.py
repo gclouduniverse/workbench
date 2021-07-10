@@ -1,2 +1,2 @@
-def predict(instance):
+def predict(instance, **kwarg):
   return "1"

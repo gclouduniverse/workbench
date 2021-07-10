@@ -30,7 +30,7 @@ Do not belive my word. Install CLI:
 pip install vaip
 ```
 
-go to the test directory and run the following command:
+go to the ```demo``` directory and run the following command:
 
 ```bash
 TAG=... # your tag that you can push somewhere, e.g."us.gcr.io/ml-lab-152505/model-poc"
