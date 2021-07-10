@@ -21,3 +21,36 @@ During the build stage, under the hood VIAP will do:
 * it will correctly configure Flask to recognize your funciton ```predict```
 * it will copy all the files from the current folder to the container
 * it will install all python requirenments from the ```requirenmnets.txt``` file
+
+# Test Yourself
+
+Do not belive my word. Install CLI:
+
+```python
+pip install vaip
+```
+
+go to the test directory and run the following command:
+
+```bash
+TAG=... # your tag that you can push somewhere, e.g."us.gcr.io/ml-lab-152505/model-poc"
+vaip build --tag "${TAG}" --path .
+```
+
+test it, start container locally:
+
+```bash
+TAG=... # your tag that you can push somewhere, e.g."us.gcr.io/ml-lab-152505/model-poc"
+docker run -p 8080:8080 "${TAG}"
+```
+
+run the prediction:
+```bash
+curl -X POST -d '{"parameters": {}, "instances": ["1", "2"]}' -H "Content-Type: application/json" http://localhost:8080/predict
+```
+
+you should see:
+
+```
+{"predictions":["Hello Vertex","Hello Vertex"]}
+```
