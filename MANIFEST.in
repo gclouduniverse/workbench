@@ -1,1 +1,1 @@
-include vaip/container/Dockerfile
+include vaip/container/*

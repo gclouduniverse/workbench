@@ -8,7 +8,7 @@ if sys.version_info < (3, 8):
 
 setup(
     name="vaip",
-    version="3",
+    version="3.1",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),
@@ -26,5 +26,5 @@ setup(
         "grpcio==1.36.*"
     ],
     include_package_data=True,
-    package_data={"vaip": ["vaip/container/Dockerfile", "vaip/container/Dockerfile"]},
+    package_data={"vaip": ["vaip/container/Dockerfile", "vaip/container/requirements.txt"]},
 )
