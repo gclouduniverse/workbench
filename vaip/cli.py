@@ -25,6 +25,6 @@ def main():
     args = parser.parse_args()
 
     if args.action == "build":
-        create_model(args.tag, args.path, args.notebook)
+        create_model(args.tag, args.path)
     if args.action == "deploy":
         deploy_model(args.project, args.location, args.name, args.tag)

@@ -20,4 +20,6 @@ setup(
     license="LICENSE",
     description="GCP Vertex AI Prediction high level SDK",
     install_requires=open("requirements.txt").read().split("\n"),
+    include_package_data=True,
+    package_data={"vaip": ["vaip/container/Dockerfile", "vaip/container/Dockerfile"]},
 )

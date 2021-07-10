@@ -13,7 +13,7 @@ def create_model(tag: str,
         target_dir = os.path.join(
             tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
         print("Preparing Docker env")
-        _check_if_prediction_file_exist(target_dir)
+        _check_if_prediction_file_exist(src_folder)
         print("Preparing Docker env")
         _move_docker_content_to_temp_dir(target_dir)
         print("Moving content of the current dir to the temp location")
