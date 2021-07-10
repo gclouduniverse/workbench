@@ -1,4 +1,9 @@
+import sys
+
 from setuptools import setup, find_packages
+
+if sys.version_info < (3, 8):
+    sys.exit("Sorry, Python < 3.8 is not supported")
 
 setup(
     name="vaip",
@@ -8,7 +13,7 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "vaip = vaip.cli:main"
+            "vaip=vaip.cli:main"
         ]
     },
     url="http://pypi.python.org/pypi/nmp/",
