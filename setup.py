@@ -23,7 +23,8 @@ setup(
     install_requires=[
         "docker==5.0.*",
         "google-cloud-aiplatform==1.1.*",
-        "grpcio==1.36.*"
+        "grpcio==1.36.*",
+        "PyYAML==5.4.*"
     ],
     include_package_data=True,
     package_data={"vaip": ["vaip/container/Dockerfile", "vaip/container/requirements.txt"]},

@@ -1,0 +1,13 @@
+endpoint: null
+deployed_model_display_name: null
+traffic_percentage: 100
+traffic_split: null
+machine_type: "n1-standard-2"
+min_replica_count: 1
+max_replica_count: 1
+accelerator_type: null
+accelerator_count: null
+service_account: null
+explanation_metadata: null
+explanation_parameters: null
+encryption_spec_key_name: null
