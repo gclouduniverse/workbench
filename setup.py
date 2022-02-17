@@ -8,18 +8,18 @@ if sys.version_info < (3, 8):
 
 setup(
     name="vaip",
-    version="3.1",
+    version="4.0.0",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "vaip=vaip.cli:main"
+            "vai=vai.cli:main"
         ]
     },
     url="http://pypi.python.org/pypi/nmp/",
     license="LICENSE",
-    description="GCP Vertex AI Prediction high level SDK",
+    description="GCP Vertex AI high level SDK",
     install_requires=[
         "docker==5.0.*",
         "google-cloud-aiplatform==1.1.*",

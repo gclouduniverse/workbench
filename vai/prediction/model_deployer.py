@@ -110,11 +110,3 @@ def _deploy_model(
     print(model.display_name)
     print(model.resource_name)
     return model
-
-
-# create_endpoint_sample("ml-lab-152505", "test-poc", "us-west1")
-# projects/183488370666/locations/us-west1/endpoints/7882003035340144640
-# upload_model_sample("ml-lab-152505", "us-west1", "test-poc", "us.gcr.io/ml-lab-152505/model-poc")
-# projects/183488370666/locations/us-west1/models/2080170446635925504
-# _deploy_model("ml-lab-152505", "us-west1", "projects/183488370666/locations/us-west1/models/2080170446635925504", deployed_model_display_name="test-poc")
-# deploy_model("ml-lab-152505", "us-west1", "test-poc", "us.gcr.io/ml-lab-152505/model-poc")
