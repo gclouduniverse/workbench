@@ -1,4 +1,5 @@
 import urllib
+import json
 
 import google.auth.transport.requests
 import google.oauth2.id_token
@@ -28,15 +29,14 @@ def execute_notebook(gcp_project: str,
             "kernelSpec": kernel
         }
     }
-    data = urllib.parse.urlencode(values).encode('ascii')
+    data = json.dumps(values).encode('utf-8')
     print(f"url to call: {service_url}")
     print(f"data to send: {data}")
     creds, _ = google.auth.default()
     auth_req = google.auth.transport.requests.Request()
     creds.refresh(auth_req)
-    req = urllib.request.Request(service_url, data=data, headers={
-                "Content-Type": "application/json"
-            })
+    req = urllib.request.Request(service_url, data=data)
+    req.add_header('Content-Type', 'application/json')
     req.add_header("Authorization", f"Bearer {creds.token}")
     response = urllib.request.urlopen(req)
 
