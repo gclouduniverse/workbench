@@ -51,7 +51,6 @@ def execute_notebook(gcp_project: str,
     data_from_gcp = _send_generic_request(service_url, data)
     if not data_from_gcp:
         return None
-    print(str(data_from_gcp))
     operation_uri = data_from_gcp["name"]
     execution_uri = data_from_gcp["metadata"]["target"]
     notebook_gcs_url = get_output_notebook_path(execution_uri)

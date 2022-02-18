@@ -1,7 +1,7 @@
 import os
 import shutil
 from typing import Optional
-from workbench import constants
+from workbench.prediction import constants
 
 import docker
 import tempfile

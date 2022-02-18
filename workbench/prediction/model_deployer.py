@@ -78,8 +78,8 @@ def _deploy_model(
     accelerator_type: Optional[str] = None,
     accelerator_count: Optional[int] = None,
     service_account: Optional[str] = None,
-    explanation_metadata: Optional[explain.ExplanationMetadata] = None,
-    explanation_parameters: Optional[explain.ExplanationParameters] = None,
+    explanation_metadata = None,
+    explanation_parameters = None,
     metadata: Optional[Sequence[Tuple[str, str]]] = (),
     encryption_spec_key_name: Optional[str] = None,
 ):
