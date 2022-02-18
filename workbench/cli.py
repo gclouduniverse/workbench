@@ -1,12 +1,12 @@
 import argparse
 
-from vai.prediction.model_builder import create_model
-from vai.prediction.model_deployer import deploy_model
-from vai.workbench.executor import execute_local_notebook
+from workbench.prediction.model_builder import create_model
+from workbench.prediction.model_deployer import deploy_model
+from workbench.executor import execute_local_notebook
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="vai",
+    parser = argparse.ArgumentParser(prog="workbench",
                                      description="GCP Vertex AI Workbench CLI")
     parser.add_argument("action", choices=["build", "deploy", "execute-notebook"],
                                 help="action")

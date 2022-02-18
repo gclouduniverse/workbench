@@ -7,14 +7,14 @@ if sys.version_info < (3, 8):
 
 
 setup(
-    name="vaip",
-    version="4.0.0",
+    name="workbench",
+    version="1.0.0",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "vai=vai.cli:main"
+            "workbench=workbench.cli:main"
         ]
     },
     url="http://pypi.python.org/pypi/nmp/",
@@ -27,5 +27,5 @@ setup(
         "PyYAML==5.4.*"
     ],
     include_package_data=True,
-    package_data={"vaip": ["vaip/container/Dockerfile", "vaip/container/requirements.txt"]},
+    package_data={"workbench": ["workbench/prediction/container/Dockerfile", "workbench/prediction/container/requirements.txt"]},
 )

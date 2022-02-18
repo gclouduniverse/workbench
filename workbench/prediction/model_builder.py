@@ -1,7 +1,7 @@
 import os
 import shutil
 from typing import Optional
-from vaip import constants
+from workbench import constants
 
 import docker
 import tempfile
