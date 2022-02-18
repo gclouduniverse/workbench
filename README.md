@@ -1,4 +1,4 @@
-# Vertex AI Prediction (VAIP) High Level SDK
+# Vertex AI Workbench High Level SDK
 
 This SDK makes it very-very simple to deploy your Python logic to Vertex AI Prediction. In fact you just need to do two things:
 
