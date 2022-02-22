@@ -12,8 +12,6 @@ def create_model(tag: str,
     with tempfile.TemporaryDirectory() as tmpdir:
         target_dir = os.path.join(
             tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
-
-        target_dir = "/tmp/container2/"
         print(target_dir)
         print("Preparing Docker env")
         _check_if_prediction_file_exist(src_folder)
