@@ -8,7 +8,7 @@ if sys.version_info < (3, 8):
 
 setup(
     name="workbench",
-    version="1.0.0",
+    version="1.0.1",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),

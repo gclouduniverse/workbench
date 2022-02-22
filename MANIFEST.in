@@ -1,1 +1,1 @@
-include vaip/container/*
+include workbench/prediction/container/*
