@@ -6,7 +6,5 @@ COPY setup.py /app/setup.py
 COPY MANIFEST.in /app/MANIFEST.in
 COPY LICENSE /app/LICENSE
 RUN pip install /app/.
-# just for testing
-RUN workbench --version
 
 ENTRYPOINT ["workbench"]
