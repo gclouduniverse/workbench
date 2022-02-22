@@ -12,13 +12,16 @@ def create_model(tag: str,
     with tempfile.TemporaryDirectory() as tmpdir:
         target_dir = os.path.join(
             tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
+
+        target_dir = "/tmp/container2/"
+        print(target_dir)
         print("Preparing Docker env")
         _check_if_prediction_file_exist(src_folder)
         print("Preparing Docker env")
         _move_docker_content_to_temp_dir(target_dir)
         print("Moving content of the current dir to the temp location")
         shutil.copytree(src_folder, target_dir, dirs_exist_ok=True)
-        print("Building and pushing docker container")
+        print("Building and pushing docker container (this might take some time)")
         _build_and_push_docker(target_dir, tag)
         print("done")
 
@@ -40,7 +43,3 @@ def _build_and_push_docker(path, tag):
     client = docker.from_env()
     client.images.build(path=path, tag=tag)
     client.images.push(tag)
-
-
-# create_model("us.gcr.io/ml-lab-152505/model-poc", main_nb_name="test.ipynb")
-# create_model()

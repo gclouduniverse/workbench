@@ -4,3 +4,4 @@ grpcio==1.43.*
 google-api-python-client==2.37.*
 six==1.16.*
 google-cloud-storage==2.1.*
+nbformat==5.1.*

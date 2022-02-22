@@ -3,6 +3,7 @@ import argparse
 from workbench.prediction.model_builder import create_model
 from workbench.prediction.model_deployer import deploy_model
 from workbench.executor import execute_local_notebook
+from workbench.prediction.notebook_model_builder import create_model
 
 import warnings
 
@@ -40,6 +41,13 @@ def main():
     project_argument = execute_notebook_group.add_argument("--project", type=str, dest="project",
                                 help="GCP Project (Vertex AI API should be enabled)")
 
+    extract_model_notebook_group = parser.add_argument_group("extract-model-from-notebook")
+    extract_model_notebook_group.add_argument("--tag", type=str, dest="tag", required=True,
+                                help="docker tag for the model")
+    extract_model_notebook_group.add_argument("--src", type=str, dest="src", required=True,
+                                help="root of the source folder, will be copied to the container")
+    extract_model_notebook_group.add_argument("--main-notebook", type=str, dest="main_nb", required=True,
+                                help="main notebook, from where to extract the prediction logic")
 
     builder_group = parser.add_argument_group("build")
     builder_group.add_argument("--path", type=str, dest="path", default=".",
@@ -54,9 +62,9 @@ def main():
 
     if args.action == "build":
         create_model(args.tag, args.path)
-    if args.action == "deploy":
+    elif args.action == "deploy":
         deploy_model(args.project, args.location, args.name, args.tag)
-    if args.action == "execute-notebook":
+    elif args.action == "execute-notebook":
         result = execute_local_notebook(args.project, 
                                 args.location, 
                                 args.notebook, 
@@ -73,3 +81,7 @@ def main():
             print("Executed notebook will be at: " + result["notebook_gcs_url"])
             print("Execution id: " + result["execution_uri"])
             print("Operation id: " + result["operation_uri"])
+    elif args.action == "extract-model-from-notebook":
+        create_model(args.tag, args.src, args.main_nb)
+    else:
+        print("ERROR, incorrect action")
