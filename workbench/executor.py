@@ -91,7 +91,12 @@ def get_output_notebook_path(execution_uri: str) -> str:
 def _get_notebook_execution_operation_status(execution_uri: str):
     service_url = f"https://notebooks.googleapis.com/v1/{execution_uri}"
     data_from_gcp = _send_generic_request(service_url)
-    return data_from_gcp["state"]
+    if "state" in data_from_gcp:
+        return data_from_gcp["state"]
+    elif "response" in data_from_gcp:
+        return data_from_gcp["response"]["state"]
+    else:
+        return None
 
 
 def _upload_blob(gcp_project, bucket_name, source_file_name, destination_blob_name):
@@ -127,13 +132,13 @@ def _send_generic_request(url, data=None):
     return json.loads(response.read().decode(encoding))
 
 
-if "__main__" == __name__:
-    _get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/94a1ff98-940e-11ec-a72f-0242c0a80a02")
+# if "__main__" == __name__:
+    # _get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/94a1ff98-940e-11ec-a72f-0242c0a80a02")
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=3a5c9802-8f8d-11ec-b585-acde48001122
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=0e05f924-8f8d-11ec-9223-acde48001122
     # :path: /aipn/v2/proxy/notebooks.googleapis.com%2Fv1%2Fprojects%2Fml-lab-152505%2Flocations%2Fus-central1%2Fexecutions%3Fexecution_id%3Duntitled__1645052627007?1645052645915
     # URL: https://7cc62a62987d13d7-dot-us-central1.notebooks.googleusercontent.com/aipn/v2/proxy/notebooks.googleapis.com%2Fv1%2Fprojects%2Fml-lab-152505%2Flocations%2Fus-central1%2Fexecutions%3Fexecution_id%3Duntitled__1645052627007?1645052645915
-    # print(str(execute_notebook("ml-lab-152505", "us-central1", "gs://test-bucket-for-notebooks/executor_files/untitled__1645052627007/Untitled.ipynb", "gs://test-bucket-for-notebooks/executor_files/untitled__1645052627007")))
+    # print(str(execute_notebook("ml-lab-152505", "us-central1", "gs://test-bucket-for-notebooks/executor_files/untitled__1645052627007/Untitled.ipynb", "gs://test-bucket-for-notebooks/executor_files/untitled__1645052627007", wait=True)))
     # notebook_gcs_url = get_output_notebook_path("projects/ml-lab-152505/locations/us-central1/executions/83214dfe-90d1-11ec-bd9d-acde48001122")
     # notebook_gcs_url_without_scheme = notebook_gcs_url.replace("gs://", "")
     # viewer_url = f"https://notebooks.cloud.google.com/view/{notebook_gcs_url_without_scheme}"
