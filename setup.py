@@ -7,8 +7,8 @@ if sys.version_info < (3, 8):
 
 
 setup(
-    name="workbench",
-    version="1.1.0",
+    name="ai-workbench",
+    version="1.1.0-SNAPSHOT",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),
