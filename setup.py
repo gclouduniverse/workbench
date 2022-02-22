@@ -24,7 +24,11 @@ setup(
         "docker==5.0.*",
         "google-cloud-aiplatform==1.1.*",
         "grpcio==1.36.*",
-        "PyYAML==5.4.*"
+        "PyYAML==5.4.*",
+        "google-api-python-client==2.37.*",
+        "six==1.16.*",
+        "google-cloud-storage==2.1.*",
+        "nbformat==5.1.*"
     ],
     include_package_data=True,
     package_data={"workbench": ["workbench/prediction/container/Dockerfile", "workbench/prediction/container/requirements.txt"]},
