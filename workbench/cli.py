@@ -33,6 +33,8 @@ def main():
     execute_notebook_group.add_argument("--execution-id", type=str, dest="execution_id",
                                 help="execution id, should be unique or leave empty", 
                                 default="")
+    execute_notebook_group.add_argument("--wait", action='store_true', dest="wait",
+                                help="wait until exeuction is finished", default=False)
     location_argument = execute_notebook_group.add_argument("--location", type=str, dest="location",
                                 help="location should be supported by Vertex AI Workbench ")
     project_argument = execute_notebook_group.add_argument("--project", type=str, dest="project",
@@ -62,7 +64,8 @@ def main():
                                 args.execution_id, 
                                 args.env_container, 
                                 args.kernel, 
-                                args.vm_type)
+                                args.vm_type,
+                                args.wait)
         if not result:
             print("Execution failed")
         else:

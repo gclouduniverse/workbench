@@ -4,6 +4,7 @@ import json
 import google.auth.transport.requests
 import google.oauth2.id_token
 import uuid
+import time
 
 from google.cloud import storage
 
@@ -15,13 +16,14 @@ def execute_local_notebook(gcp_project: str,
                             execution_id="", 
                             env_uri="gcr.io/deeplearning-platform-release/base-cu110:latest", 
                             kernel="python3", 
-                            master_type="n1-standard-4"):
+                            master_type="n1-standard-4",
+                            wait=True):
     gcs_bucket_name = _get_gcs_bucket_name_from_gcs_uri(gcs_notebook_folder_path)
     file_name = input_notebook_file_path.split("/")[-1]
     gcs_out_path = "/".join(gcs_notebook_folder_path.replace("gs://", "").split("/")[1:]) + "/" + file_name
     input_gcs_notebook_path = f"gs://{gcs_notebook_folder_path}/{file_name}"
     _upload_blob(gcp_project, gcs_bucket_name, input_notebook_file_path, gcs_out_path)
-    return execute_notebook(gcp_project, location, input_gcs_notebook_path, gcs_notebook_folder_path, execution_id, env_uri, kernel, master_type)
+    return execute_notebook(gcp_project, location, input_gcs_notebook_path, gcs_notebook_folder_path, execution_id, env_uri, kernel, master_type, wait)
 
 
 def execute_notebook(gcp_project: str, 
@@ -31,7 +33,8 @@ def execute_notebook(gcp_project: str,
                      execution_id="", 
                      env_uri="gcr.io/deeplearning-platform-release/base-cu110:latest", 
                      kernel="python3", 
-                     master_type="n1-standard-4"):
+                     master_type="n1-standard-4",
+                     wait=True):
     if not execution_id:
         execution_id = str(uuid.uuid1())
 
@@ -56,18 +59,39 @@ def execute_notebook(gcp_project: str,
     notebook_gcs_url = get_output_notebook_path(execution_uri)
     notebook_gcs_url_without_scheme = notebook_gcs_url.replace("gs://", "")
     viewer_url = f"https://notebooks.cloud.google.com/view/{notebook_gcs_url_without_scheme}"
-    return {
-        "operation_uri": operation_uri,
-        "execution_uri": execution_uri,
-        "notebook_gcs_url": notebook_gcs_url,
-        "viewer_url": viewer_url
-    }
+    if not wait:
+        return {
+            "operation_uri": operation_uri,
+            "execution_uri": execution_uri,
+            "notebook_gcs_url": notebook_gcs_url,
+            "viewer_url": viewer_url
+        }
+    else:
+        execution_status = "IN_PROGRESS"
+        while execution_status != "DONE" or execution_status != "FAILED" or execution_status != "COMPLETED" or execution_status != "FINISHED":
+            execution_status = _get_notebook_execution_operation_status(operation_uri)
+            print(f"Execution status: {execution_status}")
+            time.sleep(3) # Sleep for 3 seconds
+        return {
+            "operation_uri": operation_uri,
+            "execution_uri": execution_uri,
+            "notebook_gcs_url": notebook_gcs_url,
+            "viewer_url": viewer_url,
+            "execution_status": execution_status
+        }
+
 
 
 def get_output_notebook_path(execution_uri: str) -> str:
     reuqest_url = f"https://notebooks.googleapis.com/v1/{execution_uri}"
     response = _send_generic_request(reuqest_url)
     return response["outputNotebookFile"]
+
+
+def _get_notebook_execution_operation_status(execution_uri: str):
+    service_url = f"https://notebooks.googleapis.com/v1/{execution_uri}"
+    data_from_gcp = _send_generic_request(service_url)
+    return data_from_gcp["state"]
 
 
 def _upload_blob(gcp_project, bucket_name, source_file_name, destination_blob_name):
@@ -103,7 +127,8 @@ def _send_generic_request(url, data=None):
     return json.loads(response.read().decode(encoding))
 
 
-# if "__main__" == __name__:
+if "__main__" == __name__:
+    _get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/94a1ff98-940e-11ec-a72f-0242c0a80a02")
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=3a5c9802-8f8d-11ec-b585-acde48001122
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=0e05f924-8f8d-11ec-9223-acde48001122
     # :path: /aipn/v2/proxy/notebooks.googleapis.com%2Fv1%2Fprojects%2Fml-lab-152505%2Flocations%2Fus-central1%2Fexecutions%3Fexecution_id%3Duntitled__1645052627007?1645052645915
