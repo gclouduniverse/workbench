@@ -42,8 +42,6 @@ def main():
                                 help="GCP Project (Vertex AI API should be enabled)")
 
     extract_model_notebook_group = parser.add_argument_group("extract-model-from-notebook")
-    extract_model_notebook_group.add_argument("--tag", type=str, dest="tag", required=True,
-                                help="docker tag for the model")
     extract_model_notebook_group.add_argument("--src", type=str, dest="src", required=True,
                                 help="root of the source folder, will be copied to the container")
     extract_model_notebook_group.add_argument("--main-notebook", type=str, dest="main_nb", required=True,
