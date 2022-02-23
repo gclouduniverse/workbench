@@ -19,9 +19,9 @@ def main():
 
 
     execute_notebook_group = parser.add_argument_group("execute-notebook")
-    execute_notebook_group.add_argument("--gcs-folder", type=str, dest="gcs_folder", required=True,
+    execute_notebook_group.add_argument("--gcs-folder", type=str, dest="gcs_folder",
                                 help="required for storing your notebook as well as the output")
-    execute_notebook_group.add_argument("--notebook", type=str, dest="notebook", required=True,
+    execute_notebook_group.add_argument("--notebook", type=str, dest="notebook",
                                 help="path for notebook to execute")
     execute_notebook_group.add_argument("--vm-type", type=str, dest="vm_type",
                                 help="type of VM to use for execution", default="n1-standard-4")
@@ -83,3 +83,6 @@ def main():
         create_model(args.tag, args.src, args.main_nb)
     else:
         print("ERROR, incorrect action")
+
+if __name__ == "__main__":
+    main()
