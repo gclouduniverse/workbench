@@ -40,6 +40,8 @@ def main():
                                 help="location should be supported by Vertex AI Workbench ")
     project_argument = execute_notebook_group.add_argument("--project", type=str, dest="project",
                                 help="GCP Project (Vertex AI API should be enabled)")
+    project_argument = execute_notebook_group.add_argument("--out-path", type=str, dest="out", default=None,
+                                help="GCS path for the output of the notebook execution")
 
     extract_model_notebook_group = parser.add_argument_group("extract-model-from-notebook")
     extract_model_notebook_group.add_argument("--src", type=str, dest="src",
@@ -75,7 +77,8 @@ def main():
                                 args.env_container, 
                                 args.kernel, 
                                 args.vm_type,
-                                args.wait)
+                                args.wait,
+                                args.out)
         if not result:
             print("Execution failed")
         else:

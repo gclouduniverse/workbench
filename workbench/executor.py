@@ -17,13 +17,14 @@ def execute_local_notebook(gcp_project: str,
                             env_uri="gcr.io/deeplearning-platform-release/base-cu110:latest", 
                             kernel="python3", 
                             master_type="n1-standard-4",
-                            wait=True):
+                            wait=True,
+                            output_notebook_gcs_path=None):
     gcs_bucket_name = _get_gcs_bucket_name_from_gcs_uri(gcs_notebook_folder_path)
     file_name = input_notebook_file_path.split("/")[-1]
     gcs_out_path = "/".join(gcs_notebook_folder_path.replace("gs://", "").split("/")[1:]) + "/" + file_name
     input_gcs_notebook_path = f"gs://{gcs_notebook_folder_path}/{file_name}"
     _upload_blob(gcp_project, gcs_bucket_name, input_notebook_file_path, gcs_out_path)
-    return execute_notebook(gcp_project, location, input_gcs_notebook_path, gcs_notebook_folder_path, execution_id, env_uri, kernel, master_type, wait)
+    return execute_notebook(gcp_project, location, input_gcs_notebook_path, gcs_notebook_folder_path, execution_id, env_uri, kernel, master_type, wait, output_notebook_gcs_path)
 
 
 def execute_notebook(gcp_project: str, 
@@ -34,7 +35,8 @@ def execute_notebook(gcp_project: str,
                      env_uri="gcr.io/deeplearning-platform-release/base-cu110:latest", 
                      kernel="python3", 
                      master_type="n1-standard-4",
-                     wait=True):
+                     wait=True,
+                     output_notebook_gcs_path=None):
     if not execution_id:
         execution_id = str(uuid.uuid1())
 
@@ -50,6 +52,8 @@ def execute_notebook(gcp_project: str,
             "kernelSpec": kernel
         }
     }
+    if output_notebook_gcs_path:
+        values["outputNotebookFile"] = output_notebook_gcs_path
     data = json.dumps(values).encode('utf-8')
     data_from_gcp = _send_generic_request(service_url, data)
     if not data_from_gcp:
