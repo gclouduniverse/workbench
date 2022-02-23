@@ -8,7 +8,7 @@ if sys.version_info < (3, 8):
 
 setup(
     name="ai-workbench",
-    version="1.2.0",
+    version="1.2.1",
     author="Viacheslav Kovalevskyi",
     author_email="viacheslav@kovalevskyi.com",
     packages=find_packages(),
@@ -22,12 +22,12 @@ setup(
     description="GCP Vertex AI high level SDK",
     install_requires=[
         "docker==5.0.*",
-        "google-cloud-aiplatform==1.1.*",
+        "google-cloud-aiplatform==1.10.*",
         "grpcio==1.36.*",
         "PyYAML==5.4.*",
         "google-api-python-client==2.37.*",
         "six==1.16.*",
-        "google-cloud-storage==1.32.*",
+        "google-cloud-storage==2.1.*",
         "nbformat==5.1.*"
     ],
     include_package_data=True,
