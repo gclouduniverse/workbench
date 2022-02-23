@@ -67,16 +67,7 @@ def execute_notebook(gcp_project: str,
             "viewer_url": viewer_url
         }
     else:
-        execution_status = "IN_PROGRESS"
-        print(f"operation_uri: {operation_uri}")
-        print(f"execution_uri: {execution_uri}")
-        print(f"notebook_gcs_url: {notebook_gcs_url}")
-        print(f"viewer_url: {viewer_url}")
-        while (execution_status != "DONE" or execution_status != "FAILED" or execution_status != "COMPLETED" 
-                or execution_status != "FINISHED" or execution_status != "SUCCEEDED"):
-            execution_status = _get_notebook_execution_operation_status(execution_uri)
-            print(f"Execution status: {execution_status}")
-            time.sleep(10) # Sleep for 10 seconds
+        execution_status = _wait_execution_to_complete(execution_uri)
         return {
             "operation_uri": operation_uri,
             "execution_uri": execution_uri,
@@ -84,7 +75,6 @@ def execute_notebook(gcp_project: str,
             "viewer_url": viewer_url,
             "execution_status": execution_status
         }
-
 
 
 def get_output_notebook_path(execution_uri: str) -> str:
@@ -118,6 +108,16 @@ def _upload_blob(gcp_project, bucket_name, source_file_name, destination_blob_na
     )
 
 
+def _wait_execution_to_complete(execution_uri):
+    execution_status = "IN_PROGRESS"
+    while (execution_status != "DONE" and execution_status != "FAILED" and execution_status != "COMPLETED" 
+                and execution_status != "FINISHED" and execution_status != "SUCCEEDED"):
+            execution_status = _get_notebook_execution_operation_status(execution_uri)
+            print(f"Execution status: {execution_status}")
+            time.sleep(10) # Sleep for 10 seconds
+    return execution_status
+
+
 def _get_gcs_bucket_name_from_gcs_uri(gcs_uri):
     return gcs_uri.split("/")[2]
 
@@ -139,6 +139,7 @@ def _send_generic_request(url, data=None):
 
 
 # if "__main__" == __name__:
+#     print(_wait_execution_to_complete("projects/ml-lab-152505/locations/us-central1/executions/bb55aab0-94ca-11ec-a020-0242c0a80a02"))
 #     print(_get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/58662e0e-9446-11ec-a214-0242c0a80a02"))
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=3a5c9802-8f8d-11ec-b585-acde48001122
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=0e05f924-8f8d-11ec-9223-acde48001122
