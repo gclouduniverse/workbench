@@ -12,7 +12,9 @@ from nbformat import read
 
 def create_model(tag: str,
                  src_folder: Optional[str],
-                 main_nb_name: Optional[str] = "main.ipynb"):
+                 main_nb_name: Optional[str] = "main.ipynb",
+                 docker_target_dir: Optional[str] = None,
+                 generate_only: bool = False):
     with tempfile.TemporaryDirectory() as tmpdir:
         target_dir = os.path.join(
             tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
@@ -21,7 +23,7 @@ def create_model(tag: str,
         shutil.copytree(src_folder, target_dir, dirs_exist_ok=True)
         print("Extracting prediction logic from the notebok")
         _extract_prediction_logic(main_nb_name, prediction_file)
-        model_builder.create_model(tag, target_dir)
+        model_builder.create_model(tag, target_dir, docker_target_dir, generate_only)
 
 
 def _extract_prediction_logic(nb_file_name, target_file):

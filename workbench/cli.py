@@ -46,6 +46,10 @@ def main():
                                 help="root of the source folder, will be copied to the container")
     extract_model_notebook_group.add_argument("--main-notebook", type=str, dest="main_nb",
                                 help="main notebook, from where to extract the prediction logic")
+    extract_model_notebook_group.add_argument("--target", type=str, dest="target", default=None,
+                                help="taget folder for generated Dockerfile and files around")
+    extract_model_notebook_group.add_argument("--generate-only", action='store_true', dest="generate_only", default=False,
+                                help="will not build/push docker, only generate Dockerfile and files")
 
     builder_group = parser.add_argument_group("build")
     builder_group.add_argument("--path", type=str, dest="path", default=".",
@@ -80,7 +84,7 @@ def main():
             print("Execution id: " + result["execution_uri"])
             print("Operation id: " + result["operation_uri"])
     elif args.action == "extract-model-from-notebook":
-        create_model(args.tag, args.src, args.main_nb)
+        create_model(args.tag, args.src, args.main_nb, args.target, args.generate_only)
     else:
         print("ERROR, incorrect action")
 

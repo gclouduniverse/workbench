@@ -8,10 +8,13 @@ import tempfile
 
 
 def create_model(tag: str,
-                 src_folder: Optional[str] = "."):
+                 src_folder: Optional[str] = ".",
+                 target_dir: Optional[str] = None,
+                 generate_only: bool = False):
     with tempfile.TemporaryDirectory() as tmpdir:
-        target_dir = os.path.join(
-            tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
+        if not target_dir:
+            target_dir = os.path.join(
+                tmpdir, constants.TEMP_DIR_FOR_BUILDING_CONTAINERS)
         print(target_dir)
         print("Preparing Docker env")
         _check_if_prediction_file_exist(src_folder)
@@ -20,7 +23,8 @@ def create_model(tag: str,
         print("Moving content of the current dir to the temp location")
         shutil.copytree(src_folder, target_dir, dirs_exist_ok=True)
         print("Building and pushing docker container (this might take some time)")
-        _build_and_push_docker(target_dir, tag)
+        if not generate_only:
+            _build_and_push_docker(target_dir, tag)
         print("done")
 
 
