@@ -8,12 +8,14 @@ import yaml
 def deploy_model(project: str,
     location: str,
     display_name: str,
-    serving_container_image_uri: str,):
+    serving_container_image_uri: str,
+    endpoint: str = None):
+    ai_endpoint = aiplatform.Endpoint(endpoint, project, location)
     print("Uploading model")
     model = _upload_model(project, location, display_name, serving_container_image_uri)
     print(f"model: {model.resource_name}")
     print("Deploying model (this might take a LONG.... time)")
-    _deploy_model(project, location, model.resource_name)
+    _deploy_model(project, location, model.resource_name, endpoint=ai_endpoint)
 
 
 def deploy_model_with_confg(

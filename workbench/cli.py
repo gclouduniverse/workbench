@@ -59,6 +59,8 @@ def main():
     deployer_group = parser.add_argument_group("deploy")
     deployer_group.add_argument("--name", type=str, dest="name",
                                 help="model name")
+    deployer_group.add_argument("--endpoint", type=str, dest="endpoint",
+                                help="model endpoint")
     deployer_group._group_actions.append(location_argument)
     deployer_group._group_actions.append(project_argument)
 
@@ -67,7 +69,7 @@ def main():
     if args.action == "build":
         create_model(args.tag, args.path)
     elif args.action == "deploy":
-        deploy_model(args.project, args.location, args.name, args.tag)
+        deploy_model(args.project, args.location, args.name, args.tag, args.endpoint)
     elif args.action == "execute-notebook":
         result = execute_local_notebook(args.project, 
                                 args.location, 
