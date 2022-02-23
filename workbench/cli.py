@@ -12,7 +12,7 @@ def main():
 
     parser = argparse.ArgumentParser(prog="workbench",
                                      description="GCP Vertex AI Workbench CLI")
-    parser.add_argument("action", choices=["build", "deploy", "execute-notebook"],
+    parser.add_argument("action", choices=["build", "deploy", "execute-notebook", "extract-model-from-notebook"],
                                 help="action")
     parser.add_argument("--tag", type=str, dest="tag", required=False,
                                 help="Docker Tag To Use With Build And/Or Deploy")
