@@ -68,8 +68,12 @@ def execute_notebook(gcp_project: str,
         }
     else:
         execution_status = "IN_PROGRESS"
+        print(f"operation_uri: {operation_uri}")
+        print(f"execution_uri: {execution_uri}")
+        print(f"notebook_gcs_url: {notebook_gcs_url}")
+        print(f"viewer_url: {viewer_url}")
         while execution_status != "DONE" or execution_status != "FAILED" or execution_status != "COMPLETED" or execution_status != "FINISHED":
-            execution_status = _get_notebook_execution_operation_status(operation_uri)
+            execution_status = _get_notebook_execution_operation_status(execution_uri)
             print(f"Execution status: {execution_status}")
             time.sleep(10) # Sleep for 10 seconds
         return {
@@ -91,6 +95,7 @@ def get_output_notebook_path(execution_uri: str) -> str:
 def _get_notebook_execution_operation_status(execution_uri: str):
     service_url = f"https://notebooks.googleapis.com/v1/{execution_uri}"
     data_from_gcp = _send_generic_request(service_url)
+    # print(str(data_from_gcp))
     if "state" in data_from_gcp:
         return data_from_gcp["state"]
     elif "response" in data_from_gcp:
@@ -133,7 +138,7 @@ def _send_generic_request(url, data=None):
 
 
 # if "__main__" == __name__:
-    # _get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/94a1ff98-940e-11ec-a72f-0242c0a80a02")
+#     print(_get_notebook_execution_operation_status("projects/ml-lab-152505/locations/us-central1/executions/58662e0e-9446-11ec-a214-0242c0a80a02"))
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=3a5c9802-8f8d-11ec-b585-acde48001122
     # https://notebooks.googleapis.com/v1/projects/ml-lab-152505/locations/us-central1/executions?execution_id=0e05f924-8f8d-11ec-9223-acde48001122
     # :path: /aipn/v2/proxy/notebooks.googleapis.com%2Fv1%2Fprojects%2Fml-lab-152505%2Flocations%2Fus-central1%2Fexecutions%3Fexecution_id%3Duntitled__1645052627007?1645052645915
