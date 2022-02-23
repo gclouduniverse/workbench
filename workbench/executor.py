@@ -72,7 +72,7 @@ def execute_notebook(gcp_project: str,
         print(f"execution_uri: {execution_uri}")
         print(f"notebook_gcs_url: {notebook_gcs_url}")
         print(f"viewer_url: {viewer_url}")
-        while execution_status != "DONE" or execution_status != "FAILED" or execution_status != "COMPLETED" or execution_status != "FINISHED":
+        while execution_status != "DONE" or execution_status != "FAILED" or execution_status != "COMPLETED" or execution_status != "FINISHED" or execution_status != "SUCCEEDED":
             execution_status = _get_notebook_execution_operation_status(execution_uri)
             print(f"Execution status: {execution_status}")
             time.sleep(10) # Sleep for 10 seconds
