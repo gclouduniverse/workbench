@@ -27,7 +27,7 @@ setup(
         "PyYAML==5.4.*",
         "google-api-python-client==2.37.*",
         "six==1.16.*",
-        "google-cloud-storage==2.1.*",
+        "google-cloud-storage==1.32.*",
         "nbformat==5.1.*"
     ],
     include_package_data=True,
